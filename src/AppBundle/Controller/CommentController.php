@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Comment;
+use AppBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -17,10 +18,10 @@ class CommentController extends Controller
     /**
      * Lists all comment entities.
      *
-     * @Route("/", name="comment_index")
+     * @Route("/{postId}", name="comment_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction($postId)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -28,27 +29,33 @@ class CommentController extends Controller
 
         return $this->render('comment/index.html.twig', array(
             'comments' => $comments,
+            'postId' => $postId
         ));
     }
 
     /**
      * Creates a new comment entity.
      *
-     * @Route("/new", name="comment_new")
+     * @Route("/new/{postId}", name="comment_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, $postId)
     {
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('AppBundle:Post')->find($postId);
+
         $comment = new Comment();
         $form = $this->createForm('AppBundle\Form\CommentType', $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $comment->setUser($this->getUser());
+            $comment->setPost($post);
+
             $em->persist($comment);
             $em->flush($comment);
 
-            return $this->redirectToRoute('comment_show', array('id' => $comment->getId()));
+            return $this->redirectToRoute('post_show', array('id' => $postId));
         }
 
         return $this->render('comment/new.html.twig', array(
@@ -95,6 +102,7 @@ class CommentController extends Controller
             'comment' => $comment,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'postId' => $comment->getPost()->getId()
         ));
     }
 
@@ -115,7 +123,7 @@ class CommentController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('comment_index');
+        return $this->redirectToRoute('post_show', array('id' => $comment->getPost()->getId()));
     }
 
     /**
