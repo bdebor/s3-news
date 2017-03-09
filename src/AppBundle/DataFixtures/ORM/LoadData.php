@@ -2,6 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -23,31 +24,29 @@ class LoadData implements FixtureInterface, ContainerAwareInterface
 
 	public function load(ObjectManager $manager)
 	{
-		$user1 = new User();
-		$encoder = $this->container->get('security.password_encoder');
-		$password = $encoder->encodePassword($user1, 'ppppp');
+		$past = new \DateTime("-20 Days");
 
-		$user1
+		$user = new User();
+		$encoder = $this->container->get('security.password_encoder');
+		$password = $encoder->encodePassword($user, 'ppppp');
+		$user
 			->setEmail('admin@pp.pp')
 			->setUsername('admin')
 			->setPassword($password)
 			->addRole('ROLE_ADMIN')
 			->setEnabled(true);
-
-		$manager->persist($user1);
+		$manager->persist($user);
 
 		for ($i = 1; $i <= 10; $i++) {
 			${"user$i"} = new User();
 			$encoder  = $this->container->get('security.password_encoder');
 			$password = $encoder->encodePassword(${"user$i"}, 'ppppp');
-
 			${"user$i"}
 				->setEmail("user$i@pp.pp")
 				->setUsername("user$i")
 				->setPassword($password)
 				->addRole('ROLE_USER')
 				->setEnabled(true);
-
 			$manager->persist(${"user$i"});
 		}
 
@@ -61,16 +60,34 @@ class LoadData implements FixtureInterface, ContainerAwareInterface
 
 		for ($i = 1; $i <= 10; $i++) {
 			$userRand = 'user'.rand(1, 10);
-			$post = new Post();
+			${"post$i"} = new Post();
 
-			$post
+			${"post$i"}
 				->setUser(${$userRand})
 				->setTitle("Post $i")
 				->setContent(substr($content, 0, rand(400, 745)))
-				->setCreatedAt(new \DateTime('now'));
+				->setCreatedAt($past);
 
-			$manager->persist($post);
+			$manager->persist(${"post$i"});
 		}
+
+		/**/
+
+		for ($i = 1; $i <= 10; $i++) {
+			$userRand = 'user'.rand(1, 10);
+			$days = 20 - $i;
+			$comment = new Comment();
+
+			$comment
+				->setContent(substr($content, 0, rand(100, 200)))
+				->setCreatedAt(new \DateTime("-$days Days"))
+				->setUser(${$userRand})
+				->setPost(${"post1"});
+
+			$manager->persist($comment);
+		}
+
+		/**/
 
 		$manager->flush();
 	}
