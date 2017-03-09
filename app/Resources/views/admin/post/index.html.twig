@@ -17,7 +17,7 @@
         <tbody>
         {% for post in post %}
             <tr>
-                <td><a href="{{ path('post_show', { 'id': post.id }) }}">{{ post.id }}</a></td>
+                <td><a href="{{ path('admin_post_show', { 'id': post.id }) }}">{{ post.id }}</a></td>
                 <td>{{ post.title }}</td>
                 <td>{{ post.content }}</td>
                 <td>{% if post.createdAt %}{{ post.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
@@ -25,7 +25,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('post_show', { 'id': post.id }) }}">show</a>
+                            <a href="{{ path('admin_post_show', { 'id': post.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_post_edit', { 'id': post.id }) }}">edit</a>
                         </li>
                     </ul>
                 </td>
@@ -34,4 +37,9 @@
         </tbody>
     </table>
 
+    <ul>
+        <li>
+            <a href="{{ path('admin_post_new') }}">Create a new post</a>
+        </li>
+    </ul>
 {% endblock %}

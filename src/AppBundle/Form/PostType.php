@@ -2,18 +2,24 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class NewsType extends AbstractType
+class PostType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title')->add('content')->add('createdAt')->add('updatedAt')->add('user');
+        $builder
+            ->add('title')
+            ->add('content')
+            ->add('user', EntityType::class, array(
+                'class' => 'AppBundle\Entity\User'
+        ));
     }
     
     /**
@@ -22,7 +28,7 @@ class NewsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\News'
+            'data_class' => 'AppBundle\Entity\Post'
         ));
     }
 
@@ -31,7 +37,7 @@ class NewsType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_news';
+        return 'appbundle_post';
     }
 
 
