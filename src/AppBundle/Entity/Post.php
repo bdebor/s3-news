@@ -24,17 +24,6 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="author", type="string", length=255)
-     */
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-     */
-    private $user;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
@@ -60,6 +49,11 @@ class Post
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    private $user;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
@@ -73,21 +67,6 @@ class Post
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUser() {
-        return $this->user;
-    }
-
-    /**
-     * @param mixed $user
-     */
-    public function setUser($user) {
-        $this->user = $user;
-        return $this;
     }
 
     /**
@@ -175,6 +154,21 @@ class Post
      */
     public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user) {
+        $this->user = $user;
         return $this;
     }
 }

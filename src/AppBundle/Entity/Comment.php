@@ -45,6 +45,10 @@ class Comment
      */
     private $post;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime('now');
+    }
 
     /**
      * Get id
