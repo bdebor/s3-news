@@ -41,9 +41,9 @@ class Comment
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\News")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post")
      */
-    private $news;
+    private $post;
 
 
     /**
@@ -116,19 +116,21 @@ class Comment
      */
     public function setUser($user) {
         $this->user = $user;
+        return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getNews() {
-        return $this->news;
+    public function getPost() {
+        return $this->post;
     }
 
     /**
-     * @param mixed $news
+     * @param mixed $post
      */
-    public function setNews($news) {
-        $this->news = $news;
+    public function setPost($post) {
+        $this->post = $post;
+        return $this;
     }
 }

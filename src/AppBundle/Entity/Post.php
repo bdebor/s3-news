@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * News
+ * Post
  *
- * @ORM\Table(name="news")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\NewsRepository")
+ * @ORM\Table(name="post")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
  */
-class News
+class Post
 {
     /**
      * @var int
@@ -83,6 +83,7 @@ class News
      */
     public function setUser($user) {
         $this->user = $user;
+        return $this;
     }
 
     /**
@@ -90,7 +91,7 @@ class News
      *
      * @param string $title
      *
-     * @return News
+     * @return Post
      */
     public function setTitle($title)
     {
@@ -114,7 +115,7 @@ class News
      *
      * @param string $content
      *
-     * @return News
+     * @return Post
      */
     public function setContent($content)
     {
@@ -138,7 +139,7 @@ class News
      *
      * @param \DateTime $createdAt
      *
-     * @return News
+     * @return Post
      */
     public function setCreatedAt($createdAt)
     {
@@ -166,8 +167,10 @@ class News
 
     /**
      * @param \DateTime $updatedAt
+     * @return Post
      */
     public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
 }

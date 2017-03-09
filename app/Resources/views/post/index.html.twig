@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>News list</h1>
+    <h1>Post list</h1>
 
     <table>
         <thead>
@@ -15,20 +15,20 @@
             </tr>
         </thead>
         <tbody>
-        {% for news in news %}
+        {% for post in post %}
             <tr>
-                <td><a href="{{ path('news_show', { 'id': news.id }) }}">{{ news.id }}</a></td>
-                <td>{{ news.title }}</td>
-                <td>{{ news.content }}</td>
-                <td>{% if news.createdAt %}{{ news.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if news.updatedAt %}{{ news.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td><a href="{{ path('post_show', { 'id': post.id }) }}">{{ post.id }}</a></td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.content }}</td>
+                <td>{% if post.createdAt %}{{ post.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if post.updatedAt %}{{ post.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('news_show', { 'id': news.id }) }}">show</a>
+                            <a href="{{ path('post_show', { 'id': post.id }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('news_edit', { 'id': news.id }) }}">edit</a>
+                            <a href="{{ path('post_edit', { 'id': post.id }) }}">edit</a>
                         </li>
                     </ul>
                 </td>
@@ -39,7 +39,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('news_new') }}">Create a new news</a>
+            <a href="{{ path('post_new') }}">Create a new post</a>
         </li>
     </ul>
 {% endblock %}
